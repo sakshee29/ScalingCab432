@@ -1,10 +1,10 @@
 var express = require('express');
-const sharp = require("sharp");
 const mobilenet = require('@tensorflow-models/mobilenet');
-const fs = require("fs");
-const formidable = require("formidable");
-const bodyParser = require("body-parser");
 
+const tf = require("@tensorflow/tfjs");
+const tfcore = require("@tensorflow/tfjs-node");
+
+const image = require("get-image-data");
 
 
 var router = express.Router();
@@ -33,5 +33,54 @@ router.get('/image', async function(request, response, next) {
     });
   // res.render('index', { title: 'Express' });
 });
+
+router.get('/classify', async function(req, res, next) {
+  whatIsThis(req.query.url)
+    .then((imageClassification) => {
+      console.log(imageClassification[0].className);
+      res.status(200).send({
+        classification: imageClassification,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res
+        .status(500)
+        .send("Something went wrong while fetching image from URL.");
+    });
+});
+
+function whatIsThis(url) {
+  return new Promise((resolve, reject) => {
+    image(url, async (err, image) => {
+      if (err) {
+        reject(err);
+      } else {
+        const channelCount = 3;
+        const pixelCount = image.width * image.height;
+        const vals = new Int32Array(pixelCount * channelCount);
+
+        let pixels = image.data;
+
+        for (let i = 0; i < pixelCount; i++) {
+          for (let k = 0; k < channelCount; k++) {
+            vals[i * channelCount + k] = pixels[i * 4 + k];
+          }
+        }
+
+        const outputShape = [image.height, image.width, channelCount];
+
+        const input = tf.tensor3d(vals, outputShape, "int32");
+
+        const model = await mobilenet.load();
+
+        let temp = await model.classify(input);
+
+        resolve(temp);
+      }
+    });
+  });
+}
+
 
 module.exports = router;
