@@ -1,8 +1,77 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-image: linear-gradient(rgba(31, 150, 152, 0.9), rgba(31, 150, 152, 0.9));
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  min-height: 100vh;
+  color: rgb(230, 221, 221);
+  padding-left: 8%;
+  padding-right: 8%;
+  box-sizing: border-box;
+  
+}
+a{
+  text-decoration: none;
+  color: #cac7ff;
+}
+.navbar{
+  height: 12%;
+  display: flex;
+  align-items: center;
 }
 
-a {
-  color: #00B7FF;
+nav{
+  flex: 1;
+  display: inline-flex;
+  justify-content:space-evenly;
+}
+.container{
+  margin-top: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.classify{
+  width: 100%;
+  max-width: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.534);
+  border-radius: 60px;
+  padding: 10px 20px;
+  backdrop-filter: blur(4px) saturate(180%);
+}
+
+.classify input{
+  background: transparent;
+  flex: 1;
+  border: 0;
+  outline: none;
+  font-size: 20px;
+  padding: 15px 15px;
+  color: #1d1c2be8;
+}
+
+::placeholder{
+  color: #1d1c2be8;
+}
+
+.classify button img{
+  width: 25px;
+}
+
+.classify button {
+  border: 0;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  background: #21bf9a;
+  cursor: pointer;
 }

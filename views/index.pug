@@ -1,5 +1,8 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  div(class="container")
+    form(action=`/classify`, method="get" class="classify")
+      input(type="text", name="query", class="queryInput", placeholder="Search for anything", required)
+      button(type="submit")
+        img(src="/images/search.png" alt="")
