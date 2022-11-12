@@ -15,25 +15,12 @@ router.get("/", function (req, res, next) {
   res.render("index");
 });
 
-const imageAPI = {
-  api_key: process.env.EXPRESS_APP_IMAGE_API_KEY,
-};
-
-function createAPIOptions(query) {
-  const options = {
-    hostname: "api.pexels.com",
-    path: `/v1/search?query=${query}&per_page=1`,
-    method: "GET",
-  };
-
-  return options;
-}
-
+/* GET classification results page. */
 router.get("/classify", async function (req, res, next) {
   let searchTerm = req.query.query;
   const options = createAPIOptions(searchTerm);
   const url = `https://${options.hostname}${options.path}`;
-  let config = { Authorization: `${imageAPI.api_key}` };
+  let config = { Authorization: `${process.env.EXPRESS_APP_IMAGE_API_KEY}` };
 
   await axios
     .get(url, { headers: config })
@@ -50,8 +37,10 @@ router.get("/classify", async function (req, res, next) {
 
         classifyImage(photoUrl)
         .then((imageClassification) => {
-          // console.log(imageClassification[0].className);
-          res.render("classify", { displayMessage, photoUrl, imageClassification});
+
+          console.log(imageClassification);
+          let prob = ((imageClassification[0].probability)*100).toFixed(2);
+          res.render("classify", { displayMessage, photoUrl, prob, imageClassification});
           // res.status(200).send({
           //   classification: imageClassification,
           // });
@@ -64,7 +53,7 @@ router.get("/classify", async function (req, res, next) {
 
       /* If the query is garbage i.e no photos exist */
       else {
-        let displayMessage = "Please enter a valid query";
+        let displayMessage = `Please enter a valid query, I don't know what ${searchTerm} means`;
         res.render("classify" , { displayMessage });
       }
     })
@@ -75,6 +64,17 @@ router.get("/classify", async function (req, res, next) {
       res.status(500).render("error", {errMessage, status});
     });
 });
+
+/* ------------------------ HELPER FUNCTIONS ------------------------ */
+function createAPIOptions(query) {
+  const options = {
+    hostname: "api.pexels.com",
+    path: `/v1/search?query=${query}&per_page=1`,
+    method: "GET",
+  };
+
+  return options;
+}
 
 function classifyImage(url) {
   return new Promise((resolve, reject) => {

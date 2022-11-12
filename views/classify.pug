@@ -6,6 +6,10 @@ block content
         h2 #{displayMessage}
         if imageClassification
             img(src=`${photoUrl}`, alt="searchedImage" ,width="300px",  height="300px")
-            h1 #{imageClassification[0].className}
+            h1 I am #{prob}% sure it's a #{imageClassification[0].className}
+            h3 but I think it might be ... 
+            ul 
+                li #{imageClassification[1].className}
+                li #{imageClassification[2].className}
         
         
