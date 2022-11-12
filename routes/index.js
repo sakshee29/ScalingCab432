@@ -72,32 +72,8 @@ router.get("/classify", async function (req, res, next) {
       let status = err.status;
       let errMessage = err.message;
 
-      // if (err.response) {
-      //   /*If query is empty */
-      //   status = err.response.data.status;
-      //   errMessage = err.response.data.code;
-      //   console.log(err.response.data);
-      //   // res.render("classify" , { displayMessage:errMessage });
-      // }
-      
       res.status(500).render("error", {errMessage, status});
-      // res.status(status).send(errMessage);
-      // res.status(500).send(err);
     });
-
-  // whatIsThis(req.query.query)
-  //   .then((imageClassification) => {
-  //     console.log(imageClassification[0].className);
-  //     res.status(200).send({
-  //       classification: imageClassification,
-  //     });
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //     res
-  //       .status(500)
-  //       .send("Something went wrong while fetching image from URL.");
-  //   });
 });
 
 function classifyImage(url) {
@@ -131,20 +107,5 @@ function classifyImage(url) {
     });
   });
 }
-
-// router.get('/wiki', async function(req, res, next) {
-//   const searchQuery = req.query.search
-//   const searchUrl = `https://en.wikipedia.org/w/api.php?action=parse&format=json&section=0&page=${searchQuery}`;
-
-//   await axios
-//     .get(searchUrl)
-//     .then((response) => {
-//       const responseJSON = response.data;
-//       res.status(200).send({
-//         response: responseJSON,
-//       });
-//     })
-//     .catch((err) => res.json(err));
-// });
 
 module.exports = router;
