@@ -8,6 +8,7 @@ body {
   background-image: linear-gradient(rgba(31, 150, 152, 0.9), rgba(31, 150, 152, 0.9));
   background-position: center;
   background-size: cover;
+  margin-top: 5%;
   width: 100%;
   min-height: 100vh;
   color: rgb(230, 221, 221);
@@ -74,4 +75,8 @@ nav{
   height: 50px;
   background: #21bf9a;
   cursor: pointer;
+}
+
+.source {
+  color: rgb(205, 197, 50);
 }
