@@ -64,7 +64,12 @@ router.get("/classify", async function (req, res, next) {
           if (result) {
             /* Serve from Redis */
             const resultJSON = JSON.parse(result);
-            res.json({ source: "Redis Cache", ...resultJSON });
+            let prob = (
+              resultJSON[0].probability * 100
+            ).toFixed(2);
+            // res.json({ source: "Redis Cache", ...resultJSON });
+            res.render("classify", { displayMessage, photoUrl, prob, imageClassification: resultJSON, source: "Redis Cache" });
+    
           } 
           else {
             /* Check if it's in S3 */
@@ -74,7 +79,12 @@ router.get("/classify", async function (req, res, next) {
               .then((result) => {
                 /* Serve from S3 and store in redis */
                 const resultJSON = JSON.parse(result.Body);
-                res.json({ source: "S3 Bucket", ...resultJSON });
+
+                let prob = (
+                  resultJSON[0].probability * 100
+                ).toFixed(2);
+                res.render("classify", { displayMessage, photoUrl, prob, imageClassification: resultJSON, source: "S3 Bucket" });
+                // res.json({ source: "S3 Bucket", ...resultJSON });
 
                 resultJSON.source = "Redis Cache";
                 redisClient.setEx(persistenceKey, 3600, JSON.stringify(resultJSON));
@@ -118,6 +128,7 @@ router.get("/classify", async function (req, res, next) {
                         photoUrl,
                         prob,
                         imageClassification,
+                        source: "Web"
                       });
                       // res.status(200).send({
                       //   classification: imageClassification,

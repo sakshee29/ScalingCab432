@@ -5,6 +5,7 @@ block content
     div(class="container-results")
         h2 #{displayMessage}
         if imageClassification
+            h3 Source: #{source}
             img(src=`${photoUrl}`, alt="searchedImage" ,width="300px",  height="300px")
             h1 I am #{prob}% sure it's a #{imageClassification[0].className}
             h3 but I think it might be ... 
