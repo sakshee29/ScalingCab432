@@ -136,11 +136,8 @@ router.get("/classify", async function (req, res, next) {
                     })
                     .catch((err) => {
                       console.log(err);
-                      res
-                        .status(500)
-                        .send(
-                          "Something went wrong while fetching image from URL."
-                        );
+                      res.status(500).render("error", { errMessage: "Something went wrong while fetching image from URL." });
+                    
                     });
                 }
               });
@@ -148,15 +145,15 @@ router.get("/classify", async function (req, res, next) {
         });
       } else {
         /* If the query is garbage i.e no photos exist */
-        let displayMessage = `Please enter a valid query, I don't know what ${searchTerm} means`;
-        res.render("classify", { displayMessage });
+        let errMessage = `Please enter a valid query, I don't know what ${searchTerm} means`;
+        res.status(500).render("error", { errMessage });
       }
     })
     .catch((err) => {
       let status = err.status;
       let errMessage = err.message;
 
-      res.status(500).render("error", { errMessage, status });
+      res.status(500).render("error", { errMessage });
     });
 });
 

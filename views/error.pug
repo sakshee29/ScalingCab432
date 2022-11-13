@@ -1,6 +1,6 @@
 extends layout
 
 block content
-  h1= errMessage
+  h1(class="errMessage") #{errMessage}
   if errMessage == "Request failed with status code 400"
     h2 Please enter a valid query, Whitespaces/special characters not allowed

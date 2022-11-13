@@ -80,3 +80,8 @@ nav{
 .source {
   color: rgb(205, 197, 50);
 }
+
+.errMessage {
+  color: rgb(181, 62, 62);
+  margin-top: 10%;
+}
