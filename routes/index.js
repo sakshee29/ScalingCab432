@@ -2,7 +2,7 @@ const express = require("express");
 const axios = require("axios");
 const mobilenet = require("@tensorflow-models/mobilenet");
 const tf = require("@tensorflow/tfjs");
-const tfcore = require("@tensorflow/tfjs-node");
+//const tfcore = require("@tensorflow/tfjs-node");
 const image = require("get-image-data");
 const redis = require("redis");
 
